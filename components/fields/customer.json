@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_fields_customers",
+  "info": {
+    "name": "customer",
+    "icon": "user-alt"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "customer": {
+      "model": "customer"
+    }
+  }
+}

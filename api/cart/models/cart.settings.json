@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "carts",
+  "info": {
+    "name": "cart",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "subtotal": {
+      "type": "decimal"
+    },
+    "shipping": {
+      "type": "decimal"
+    },
+    "total": {
+      "type": "decimal"
+    },
+    "line_items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "list.line-items"
+    },
+    "currency": {
+      "type": "string",
+      "default": "mad"
+    },
+    "customer": {
+      "via": "cart",
+      "model": "customer"
+    }
+  }
+}

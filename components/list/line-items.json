@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_list_line_items",
+  "info": {
+    "name": "line_items",
+    "icon": "grip-vertical",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "size": {
+      "type": "integer"
+    },
+    "quantity": {
+      "type": "integer"
+    },
+    "product": {
+      "columnName": "product_id",
+      "model": "product"
+    }
+  }
+}

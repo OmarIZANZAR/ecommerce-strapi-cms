@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_fields_addresses",
+  "info": {
+    "name": "address",
+    "icon": "address-card"
+  },
+  "options": {},
+  "attributes": {
+    "city": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "line1": {
+      "type": "text"
+    },
+    "line2": {
+      "type": "text"
+    },
+    "postal_code": {
+      "type": "biginteger"
+    },
+    "state": {
+      "type": "text"
+    }
+  }
+}

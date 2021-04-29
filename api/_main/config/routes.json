@@ -1,0 +1,24 @@
+{
+    "routes" : [
+        {
+            "method" : "GET",
+            "path": "/main",
+            "handler": "main.index"
+        },
+        {
+            "method": "POST",
+            "path": "/checkout",
+            "handler": "main.cartCheckout"
+        },
+        {
+            "method": "POST",
+            "path": "/checkout/pay",
+            "handler": "main.createPaymentIntent"
+        },
+        {
+            "method": "POST",
+            "path": "/checkout/order",
+            "handler": "main.createOrderFromCheckout"
+        }
+    ]
+}

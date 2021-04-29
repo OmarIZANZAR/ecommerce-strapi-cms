@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "customers",
+  "info": {
+    "name": "customer",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "firstname": {
+      "type": "string",
+      "required": false
+    },
+    "lastname": {
+      "type": "string",
+      "required": false
+    },
+    "email": {
+      "type": "email",
+      "required": false
+    },
+    "phone": {
+      "type": "string"
+    },
+    "shipping_data": {
+      "type": "component",
+      "repeatable": false,
+      "component": "fields.shipping"
+    },
+    "stripe_cus_id": {
+      "type": "string",
+      "unique": true
+    },
+    "cart": {
+      "model": "cart",
+      "via": "customer"
+    },
+    "address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "fields.address"
+    },
+    "orders": {
+      "collection": "order"
+    }
+  }
+}

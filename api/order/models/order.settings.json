@@ -1,0 +1,80 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "name": "order",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "reference": {
+      "type": "string"
+    },
+    "delivery_date": {
+      "type": "datetime"
+    },
+    "subtotal": {
+      "type": "decimal"
+    },
+    "shipping": {
+      "type": "decimal"
+    },
+    "total": {
+      "type": "decimal"
+    },
+    "line_items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "list.line-items"
+    },
+    "customer": {
+      "type": "component",
+      "repeatable": false,
+      "component": "fields.customer"
+    },
+    "shipping_data": {
+      "type": "component",
+      "repeatable": false,
+      "component": "fields.shipping"
+    },
+    "currency": {
+      "type": "string",
+      "default": "mad"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "paid",
+        "refunded",
+        "canceled"
+      ]
+    },
+    "process": {
+      "type": "enumeration",
+      "enum": [
+        "accepted",
+        "preparation",
+        "delivering",
+        "fulfilled"
+      ]
+    },
+    "stripe_pi_id": {
+      "type": "string",
+      "unique": false
+    },
+    "shipping_methods": {
+      "type": "component",
+      "repeatable": true,
+      "component": "fields.shipping-methods"
+    },
+    "shipping_method": {
+      "type": "component",
+      "repeatable": false,
+      "component": "fields.shipping-methods"
+    }
+  }
+}

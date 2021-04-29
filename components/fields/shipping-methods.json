@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_fields_shipping_methods",
+  "info": {
+    "name": "shipping_methods",
+    "icon": "archive",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "type": "decimal"
+    }
+  }
+}

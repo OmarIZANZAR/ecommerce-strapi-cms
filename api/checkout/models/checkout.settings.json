@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "checkouts",
+  "info": {
+    "name": "checkout",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "subtotal": {
+      "type": "decimal"
+    },
+    "shipping": {
+      "type": "decimal"
+    },
+    "total": {
+      "type": "decimal"
+    },
+    "line_items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "list.line-items"
+    },
+    "customer": {
+      "type": "component",
+      "repeatable": false,
+      "component": "fields.customer"
+    },
+    "shipping_data": {
+      "type": "component",
+      "repeatable": false,
+      "component": "fields.shipping"
+    },
+    "currency": {
+      "type": "string",
+      "default": "mad"
+    },
+    "shipping_methods": {
+      "type": "component",
+      "repeatable": true,
+      "component": "fields.shipping-methods"
+    },
+    "stripe_pi_id": {
+      "type": "string"
+    },
+    "shipping_method": {
+      "type": "component",
+      "repeatable": false,
+      "component": "fields.shipping-methods"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_fields_shippings",
+  "info": {
+    "name": "shipping",
+    "icon": "address-book",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "fields.address"
+    },
+    "carrier": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "tracking_number": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_fields_price_tags",
+  "info": {
+    "name": "price_tags",
+    "icon": "at"
+  },
+  "options": {},
+  "attributes": {
+    "price_dollar": {
+      "type": "string"
+    },
+    "price_euro": {
+      "type": "string"
+    },
+    "price_mad": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_list_sizes",
+  "info": {
+    "name": "sizes",
+    "icon": "th-list",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "value": {
+      "type": "integer",
+      "unique": false
+    },
+    "quantity": {
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "guests",
+  "info": {
+    "name": "guest",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "subtotal": {
+      "type": "decimal",
+      "default": 0
+    },
+    "shipping": {
+      "type": "decimal",
+      "default": 0
+    },
+    "total": {
+      "type": "decimal",
+      "default": 0
+    },
+    "line_items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "list.line-items"
+    },
+    "currency": {
+      "type": "string",
+      "default": "mad",
+      "unique": false
+    }
+  }
+}
