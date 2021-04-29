@@ -2,7 +2,11 @@
 module.exports = ({ env }) => ({
     settings: {
         cors: {
-            origin: ['http://localhost:1337', env('HOST'), env('CLIENT_URL')],
+            origin: [
+                env('HOST'), 
+                env('CLIENT_URL'), 
+                'https://iz-ecommerce-strapi.herokuapp.com'
+            ],
         },
     },
 });
