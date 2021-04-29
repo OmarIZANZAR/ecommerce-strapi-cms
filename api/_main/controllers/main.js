@@ -2,7 +2,7 @@
 
 const { sanitizeEntity } = require('strapi-utils')
 
-const stripe = require('stripe')('sk_test_51IAhE8J7GTeskiXlRchlJMvOLtyi5l1ARdQOfPTt2xJ8EInqRynLjqhp7lJeRoFVRdFqVsIRRUDYNk1TNdpq1nrK00wgtdlZJG')
+const stripe = require('stripe')(process.env.STRIPE_SK)
 
 function calculateSubtotal(items){
     let subtotal = 0
@@ -89,6 +89,7 @@ function getLineItems(items){
 module.exports = {
     index: async (ctx) => {
         ctx.send("main file")
+        console.log(process.env.STRIPE_SK)
     },
 
     // checkout the cart:
