@@ -93,13 +93,15 @@ module.exports = {
     },
 
     // checkout the cart:
-    // POST /checkout (Cookie: guest_id) { customer_data, shipping_data }
+    // POST /checkout/:id
+    // BODY { customer_data, shipping_data }
     // => { error, message, data:checkout }
     cartCheckout: async (ctx) => {
-        const guest_id = ctx.cookies.get('guest_id', { signed: false })
+        const { id } = ctx.params
         const { customer_data, shipping_data } = ctx.request.body
+        console.log("CHECKOUT GUEST OF id=", id)
         
-        const guest = await strapi.services.guest.findOne({ id:guest_id })
+        const guest = await strapi.services.guest.findOne({ id })
 
         if(!guest) return {
             error: true,
@@ -146,10 +148,10 @@ module.exports = {
     },
 
     // adding shipping method to checkout:
-    // POST /checkout/pay (Cookie: guest_id) { checkout_id, selected_shipping_method }
+    // POST /checkout/pay
+    // BODY { checkout_id, selected_shipping_method }
     // => { error, message, data:{ checkout , clientSecret } }
     createPaymentIntent: async (ctx) => {
-        // const guest_id = ctx.cookies.get('guest_id', { signed: false })
         const { checkout_id, selected_shipping_method } = ctx.request.body
 
         const checkout = await strapi.services.checkout.findOne({ id: checkout_id });
@@ -236,7 +238,8 @@ module.exports = {
     },
 
     // creating order from checkout:
-    // POST /checkout/order (Cookie: guest_id) { checkout_id, paymentIntent_id }
+    // POST /checkout/order 
+    // BODY { checkout_id, paymentIntent_id }
     // => { error, message, data:order }
     createOrderFromCheckout: async (ctx) => {
         const { checkout_id, paymentIntent_id } = ctx.request.body

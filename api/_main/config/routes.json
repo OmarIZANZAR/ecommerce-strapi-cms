@@ -7,11 +7,6 @@
         },
         {
             "method": "POST",
-            "path": "/checkout",
-            "handler": "main.cartCheckout"
-        },
-        {
-            "method": "POST",
             "path": "/checkout/pay",
             "handler": "main.createPaymentIntent"
         },
@@ -19,6 +14,11 @@
             "method": "POST",
             "path": "/checkout/order",
             "handler": "main.createOrderFromCheckout"
+        },
+        {
+            "method": "POST",
+            "path": "/checkout/:id",
+            "handler": "main.cartCheckout"
         }
     ]
 }

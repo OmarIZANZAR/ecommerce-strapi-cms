@@ -18,7 +18,15 @@
     },
     {
       "method": "GET",
-      "path": "/guests/retrieve",
+      "path": "/guests/initiate",
+      "handler": "guest.initiateCart",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/guests/retrieve/:id",
       "handler": "guest.retrieveCart",
       "config": {
         "policies": []
@@ -41,8 +49,16 @@
       }
     },
     {
+      "method": "PUT",
+      "path": "/guests/empty/:id",
+      "handler": "guest.emptyCart",
+      "config": {
+        "policies": []
+      }
+    },
+    {
       "method": "POST",
-      "path": "/guests/item",
+      "path": "/guests/additem/:id",
       "handler": "guest.addItem",
       "config": {
         "policies": []
@@ -50,16 +66,16 @@
     },
     {
       "method": "PUT",
-      "path": "/guests/empty",
-      "handler": "guest.emptyCart",
+      "path": "/guests/updateitem/:id",
+      "handler": "guest.updateItem",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/guests/item/:id",
-      "handler": "guest.updateItem",
+      "path": "/guests/deleteitem/:id",
+      "handler": "guest.deleteItem",
       "config": {
         "policies": []
       }
@@ -76,14 +92,6 @@
       "method": "DELETE",
       "path": "/guests/:id",
       "handler": "guest.delete",
-      "config": {
-        "policies": []
-      }
-    },
-    {
-      "method": "DELETE",
-      "path": "/guests/item/:id",
-      "handler": "guest.deleteItem",
       "config": {
         "policies": []
       }

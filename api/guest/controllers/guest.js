@@ -4,22 +4,21 @@ const { sanitizeEntity } = require('strapi-utils');
 
 module.exports = {
     // ADD NEW ITEM:
-    // POST /guests/item (Cookie: guest_id) { size, quantity, product }
+    // POST /guests/additem/:id
+    // BODY { product, size, quantity }
+    // => { error, message, data }
     async addItem(ctx){
-        const guest_id = ctx.cookies.get('guest_id', { signed: false })
-        console.log("ADD ITEM IN CART OF guest_id=", guest_id)
-
+        const { id } = ctx.params
         const body = ctx.request.body
+        console.log("ADD ITEM IN GUEST OF id=", id)
 
-        // CHECKING:
-        let guest = await strapi.services.guest.findOne({ id:guest_id })
+        let guest = await strapi.services.guest.findOne({ id })
 
         if(!guest){
             guest = await strapi.services.guest.create()
-            ctx.cookies.set('guest_id', guest.id, {overwrite: true})
             return {
                 error: true,
-                message: "cart not found",
+                message: "cart not found, a new one created",
                 data: sanitizeEntity(guest, { model: strapi.models.guest })
             }
         }
@@ -101,21 +100,26 @@ module.exports = {
     },
 
     // DELETE AN ITEM:
-    // DELETE /guests/item/:id (Cookie: guest_id)
+    // PUT /guests/deleteitem/:id
+    // BODY { item_id }
+    // => { error, message, data }
     async deleteItem(ctx){
-        const guest_id = ctx.cookies.get('guest_id', { signed: false })
-        console.log("DELETE ITEM FROM CART OF guest_id=", guest_id)
-
         const { id } = ctx.params
+        const { item_id } = ctx.request.body
+        console.log("DELETE ITEM FROM GUEST OF id=", id, " ", item_id)
 
-        const guest = await strapi.services.guest.findOne({ id:guest_id })
+        const guest = await strapi.services.guest.findOne({ id })
 
-        if(!guest) return {
-            error: true,
-            message: "cart not found"
+        if(!guest){
+            guest = await strapi.services.guest.create()
+            return {
+                error: true,
+                message: "cart not found, a new one created",
+                data: sanitizeEntity(guest, { model: strapi.models.guest })
+            }
         }
 
-        const item = guest.line_items.find(item => item.id === id)
+        const item = guest.line_items.find(item => item.id === item_id)
 
         if(!item) return {
             error: true,
@@ -153,23 +157,27 @@ module.exports = {
     },
 
     // UPDATE AN ITEM:
-    // PUT /guests/item/:id (Cookie: guest_id) { quantity } 
+    // PUT /guests/updateitem/:id
+    // BODY { item_id, quantity }
+    // => { error, message, data }
     async updateItem(ctx){
-        const guest_id = ctx.cookies.get('guest_id', { signed: false })
-        console.log("UPDATE ITEM IN CART OF guest_id=", guest_id)
-
         const { id } = ctx.params
-        const { quantity } = ctx.request.body
+        const { item_id , quantity } = ctx.request.body
+        console.log("UPDATE ITEM IN GUEST OF id=", id)
 
-        const guest = await strapi.services.guest.findOne({ id:guest_id })
+        const guest = await strapi.services.guest.findOne({ id })
 
-        if(!guest) return {
-            error: true,
-            message: "cart not found"
+        if(!guest){
+            guest = await strapi.services.guest.create()
+            return {
+                error: true,
+                message: "cart not found, a new one created",
+                data: sanitizeEntity(guest, { model: strapi.models.guest })
+            }
         }
 
         let item = guest.line_items.find(item => {
-            if(item !== null) return item.id === id
+            if(item !== null) return item.id === item_id
         })
 
         if(!item) return {
@@ -178,11 +186,11 @@ module.exports = {
             data: sanitizeEntity(guest, { model: strapi.models.guest })
         }
 
-        const product = await strapi.services.product.findOne({ id:item.product.id })
+        const product = await strapi.services.product.findOne({ id: item.product.id })
 
         if(!product) return {
             error: true,
-            message: "product not found",
+            message: "product of the item not found",
             data: sanitizeEntity(guest, { model: strapi.models.guest })
         }
 
@@ -214,9 +222,9 @@ module.exports = {
                 data: sanitizeEntity(guest, { model: strapi.models.guest })
             }
 
-            if( newQuantity == 0 ){
+            if( newQuantity <= 0 ){
                 new_line_items = guest.line_items
-                    .filter(item => item.id !== id)
+                    .filter(item => item.id !== item_id)
                     .map(item => ({
                         size: item.size,
                         quantity: item.quantity,
@@ -226,7 +234,7 @@ module.exports = {
                 subtotal -= item.quantity * item.product.price;
             } else {
                 guest.line_items.forEach(item => {
-                    if(item !== null && item.id === id){
+                    if(item !== null && item.id === item_id){
                         item.quantity = newQuantity
                     }
                 })
@@ -267,49 +275,52 @@ module.exports = {
     },
 
     // RETRIEVE THE CART:
-    // GET /guests/retrieve (Cookie: guest_id)
+    // GET /guests/initiate
+    // => { error, message, data }
+    async initiateCart(ctx){
+        let guest = await strapi.services.guest.create()
+            
+        return {
+            error: false,
+            message: "cart initiated succefuly",
+            data: sanitizeEntity(guest, { model: strapi.models.guest })
+        };
+    },
+
+    // RETRIEVE THE CART:
+    // GET /guests/retrieve/:id
+    // => { error, message, data }
     async retrieveCart(ctx){
-        const guest_id = ctx.cookies.get('guest_id', { signed: false })
-        console.log("RETRIEVE CART OF guest_id=", guest_id)
+        const { id } = ctx.params
+        console.log("RETRIEVE GUEST OF id=", id)
 
-        let guest;
-
-        if(!guest_id){
-            guest = await strapi.services.guest.create()
-            return {
-                error: true,
-                message: "cart not found",
-                data: sanitizeEntity(guest, { model: strapi.models.guest })
-            }
-        }
-
-        guest = await strapi.services.guest.findOne({ id: guest_id });
+        let guest = await strapi.services.guest.findOne({ id });
 
         if(!guest){
             guest = await strapi.services.guest.create()
-            ctx.cookies.set('guest_id', guest.id, { overwrite: true })
             return {
                 error: true,
-                message: "cart not found",
+                message: "cart not found, a new one created",
                 data: sanitizeEntity(guest, { model: strapi.models.guest })
             }
         }
             
         return {
             error: false,
-            message: "cart retreived succefuly",
+            message: "cart retrieved succefuly",
             data: sanitizeEntity(guest, { model: strapi.models.guest })
         };
     },
 
     // EMPTY CART:
-    // PUT /guests/empty (Cookie: guest_id)
+    // PUT /guests/empty/:id
+    // => { error, message, data }
     async emptyCart(ctx){
-        const guest_id = ctx.cookies.get('guest_id', { signed: false })
-        console.log("EMPTY CART OF guest_id=", guest_id)
+        const { id } = ctx.params
+        console.log("EMPTY GUEST OF id=", id)
 
         let updatedGuest = await strapi.services.guest.update(
-            { id: guest_id },
+            { id },
             { 
                 subtotal: 0,
                 shipping: 0,
@@ -317,20 +328,10 @@ module.exports = {
                 line_items: []
             }
         );
-
-        if(!updatedGuest){
-            updatedGuest = await strapi.services.guest.create()
-            ctx.cookies.set('guest_id', updatedGuest.id, {overwrite: true})
-            return {
-                error: true,
-                message: "cart not found",
-                data: sanitizeEntity(updatedGuest, { model: strapi.models.guest })
-            }
-        }
             
         return {
             error: false,
-            message: "cart empty",
+            message: "cart updated to empty",
             data: sanitizeEntity(updatedGuest, { model: strapi.models.guest })
         };
     }
