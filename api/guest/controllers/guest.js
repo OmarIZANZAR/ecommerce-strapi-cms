@@ -264,11 +264,11 @@ module.exports = {
     // GET /guests/retrieve (Cookie: guest_id)
     async retrieveCart(ctx){
         const guest_id = ctx.cookies.get('guest_id', { signed: false })
+
         let guest;
 
         if(!guest_id){
             guest = await strapi.services.guest.create()
-            ctx.cookies.set('guest_id', guest.id, {overwrite: true})
             return {
                 error: true,
                 message: "cart not found",
