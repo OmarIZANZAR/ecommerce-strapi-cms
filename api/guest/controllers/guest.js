@@ -4,9 +4,11 @@ const { sanitizeEntity } = require('strapi-utils');
 
 module.exports = {
     // ADD NEW ITEM:
-    // POST /guests/item (Cookie: guest_id) {size, quantity, product}
+    // POST /guests/item (Cookie: guest_id) { size, quantity, product }
     async addItem(ctx){
         const guest_id = ctx.cookies.get('guest_id', { signed: false })
+        console.log("ADD ITEM IN CART OF guest_id=", guest_id)
+
         const body = ctx.request.body
 
         // CHECKING:
@@ -102,6 +104,8 @@ module.exports = {
     // DELETE /guests/item/:id (Cookie: guest_id)
     async deleteItem(ctx){
         const guest_id = ctx.cookies.get('guest_id', { signed: false })
+        console.log("DELETE ITEM FROM CART OF guest_id=", guest_id)
+
         const { id } = ctx.params
 
         const guest = await strapi.services.guest.findOne({ id:guest_id })
@@ -152,6 +156,8 @@ module.exports = {
     // PUT /guests/item/:id (Cookie: guest_id) { quantity } 
     async updateItem(ctx){
         const guest_id = ctx.cookies.get('guest_id', { signed: false })
+        console.log("UPDATE ITEM IN CART OF guest_id=", guest_id)
+
         const { id } = ctx.params
         const { quantity } = ctx.request.body
 
@@ -264,6 +270,7 @@ module.exports = {
     // GET /guests/retrieve (Cookie: guest_id)
     async retrieveCart(ctx){
         const guest_id = ctx.cookies.get('guest_id', { signed: false })
+        console.log("RETRIEVE CART OF guest_id=", guest_id)
 
         let guest;
 
@@ -299,6 +306,7 @@ module.exports = {
     // PUT /guests/empty (Cookie: guest_id)
     async emptyCart(ctx){
         const guest_id = ctx.cookies.get('guest_id', { signed: false })
+        console.log("EMPTY CART OF guest_id=", guest_id)
 
         let updatedGuest = await strapi.services.guest.update(
             { id: guest_id },
