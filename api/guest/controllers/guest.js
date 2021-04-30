@@ -128,7 +128,7 @@ module.exports = {
         }
 
         let new_line_items = guest.line_items
-            .filter(item => item.id !== id)
+            .filter(item => item.id !== item_id)
             .map(item => ({
                 size: item.size,
                 quantity: item.quantity,
